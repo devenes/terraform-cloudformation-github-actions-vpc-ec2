@@ -1,3 +1,5 @@
+[![Terraform Infrastructure Apply](https://github.com/devenes/terraform-cloudformation-github-actions-vpc-ec2/actions/workflows/tf_apply.yml/badge.svg)](https://github.com/devenes/terraform-cloudformation-github-actions-vpc-ec2/actions/workflows/tf_apply.yml) [![Terraform Infrastructure Plan](https://github.com/devenes/terraform-cloudformation-github-actions-vpc-ec2/actions/workflows/tf_plan.yml/badge.svg)](https://github.com/devenes/terraform-cloudformation-github-actions-vpc-ec2/actions/workflows/tf_plan.yml) [![Terraform Infrastructure Destroy](https://github.com/devenes/terraform-cloudformation-github-actions-vpc-ec2/actions/workflows/tf_destroy.yml/badge.svg)](https://github.com/devenes/terraform-cloudformation-github-actions-vpc-ec2/actions/workflows/tf_destroy.yml)
+
 # Deploying AWS CloudFormation Stack using Terraform and Github Actions
 
 ## AWS CloudFormation
