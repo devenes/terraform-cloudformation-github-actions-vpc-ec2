@@ -1,0 +1,84 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: |
+  This AWS CloudFormation template creates a new Security Group, 
+  VPC with a public subnet and a single EC2 instance.
+
+Parameters:
+  VpcCidr:
+    Default: 172.16.0.0/16
+    Description: CIDR block for the VPC. Default is 10.0.0.0/16
+    Type: String
+
+  KeyName:
+    Description: The EC2 Key Pair to allow SSH access to the instance
+    Type: "AWS::EC2::KeyPair::KeyName"
+    Default: east1
+
+  PublicSubnet:
+    Default: 172.16.10.10/24
+    Description: CIDR block for the subnet.
+    Type: String
+
+  InstanceType:
+    Description: WebServer EC2 instance type
+    Type: String
+    Default: t2.micro
+
+Resources:
+  Vpc:
+    Properties:
+      CidrBlock: !Ref VpcCidr
+      Tags:
+        - Key: Name
+          Value: terraform-vpc
+    Type: "AWS::EC2::VPC"
+
+  PublicSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupName: EC2 Security Group
+      GroupDescription: Enable SSH access via port 22
+      VpcId: !Ref Vpc
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+      SecurityGroupEgress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: terraform-security-group
+
+  EC2PublicSubnet:
+    Properties:
+      CidrBlock: !Ref PublicSubnet
+      VpcId: !Ref Vpc
+      Tags:
+        - Key: Name
+          Value: terraform-public-subnet
+    Type: "AWS::EC2::Subnet"
+
+  Instance:
+    Type: "AWS::EC2::Instance"
+    Properties:
+      ImageId: ami-00a9d4a05375b2763
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      SubnetId: !Ref EC2PublicSubnet
+      SecurityGroupIds:
+        - !Ref PublicSecurityGroup
+      Tags:
+        - Key: Name
+          Value: Terraform Instance
