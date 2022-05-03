@@ -10,7 +10,7 @@ AWS CloudFormation enables you to create and provision AWS infrastructure deploy
 
 ## Project Architecture
 
-![Project](designer.png)
+![Project](project.jpg)
 
 ## AWS CloudFormation Stack Events
 
